@@ -1,0 +1,20 @@
+extends ./layout.jade
+block pagina
+  script(src="js/angular.min.js")
+  script(src="js/upload.js")
+  container(class="full-height text-center")
+   div(class="data")
+    div(class="col-md-5 center-block no-float top-space text-left")
+     h1 Cargar archivos
+     form(method="post" action"/upload" style="margin-top:1.5em;" enctype="mutipart/form-data" ng-controller = "myCtrl")
+      div(class="form-group")
+       label Video o Imagen
+       input(type="text" name="titulo" placeholder="Titulo del video o de la imagen" class="form-control")
+      div(class="form-group")
+       textarea(name="descripcion" placeholder="Descripcion del video o de la imagen" class="form-control")
+      div(class="form-group")
+       label Seleccione un archivo
+       input(type="file" name="subido" file-model = "myFile")
+      div(class="form-group text-right")
+       input(type="submit" class="btn btn-info" ng-click="uploadFile()" value="Subir")
+       

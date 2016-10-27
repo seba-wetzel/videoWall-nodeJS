@@ -1,0 +1,16 @@
+{
+  "name": "videoWall",
+  "version": "1.0.0",
+  "description": "A raspbery pi 3 videoWall based, with web interface for administration",
+  "main": "app.js",
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seba-wetzel/videoWall-nodeJS.git"
+  },
+  "author": "Seba Wetzel",
+  "license": "GPL v2",
+
+  },
+  "homepage": "www.electro-ar.net"
+}
