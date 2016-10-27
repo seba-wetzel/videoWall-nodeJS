@@ -11,7 +11,7 @@ const emitter = new eventos.EventEmitter(0);             //Deveria corregir esto
 emitter.setMaxListeners(0);
 
 // Instantaciones y configuraciones
-var puerto = 80;
+var puerto = 5000;
 var app     = express();
 app.set("view engine","jade");                   //Motor de plantillas jade
 app.use(express.static("public"));               //Carpeta de contenidos estaticos
