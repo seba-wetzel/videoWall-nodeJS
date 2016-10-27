@@ -1,16 +1,24 @@
 {
   "name": "videoWall",
   "version": "1.0.0",
-  "description": "A raspbery pi 3 videoWall based, with web interface for administration",
+  "description": "A VideoWall based on a raspberry PI 3, with web administration interface for Nike Argentina",
   "main": "app.js",
-
   "repository": {
     "type": "git",
     "url": "https://github.com/seba-wetzel/videoWall-nodeJS.git"
   },
   "author": "Seba Wetzel",
-  "license": "GPL v2",
-
+  "license": "GPL-2.0",
+  "homepage": "www.electro-ar.net",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-formidable": "^1.0.0",
+    "jade": "^1.11.0",
+    "mongoose": "^4.6.5",
+    "multer": "^1.2.0"
   },
-  "homepage": "www.electro-ar.net"
+  "scripts": {
+    "start": "node app.js"
+  }
 }

@@ -1,21 +1,29 @@
 // Librerias importadas
-var http = require('http');
-var express = require ('express');
-var mongo   = require ('mongoose')
-var parser  = require ('body-parser');
-var multer = require('multer');
-var fs = require('fs');
-var path = require('path');
+var http       = require('http');
+var express    = require ('express');
+var formidable = require('express-formidable');
+var mongo      = require ('mongoose')
+var parser     = require ('body-parser');
 
+//Dirty code to avoid warnings
+const eventos = require('events');
+const emitter = new eventos.EventEmitter();             //Deveria corregir esto si la raspi se empieza a colgar
+emitter.setMaxListeners(0);
 
 // Instantaciones y configuraciones
 var puerto = 80;
 var app     = express();
 app.set("view engine","jade");                   //Motor de plantillas jade
 app.use(express.static("public"));               //Carpeta de contenidos estaticos
+app.use('/uploads' , express.static('uploads'));
 app.use(parser.json());                         //Parser de los envios post y get
 app.use(parser.urlencoded({extended:true}));
-mongo.connect("mongodb://localhost/videowall");  //Base de datos mongodb
+app.use(formidable({
+  encoding: 'utf-8',
+  uploadDir: './uploads',
+  multiples: false,                                   // El request no puede ser un array de archivos
+}));
+mongo.connect("mongodb://localhost/videowall-test");  //Base de datos mongodb
 
 // Schema de la base de datos
 var schema = {
@@ -29,19 +37,17 @@ var schema = {
 // Instantacion de la base de datos
 var archivos = mongo.model("archivos",schema);
 
-var storage = multer.diskStorage({
-  destination: './uploads/',
-  filename: function (req, file, cb) {
-    cb(null, file.originalname.replace(path.extname(file.originalname), "") + '-' + Date.now() + path.extname(file.originalname))
-  }
-})
-
-var upload = multer({ storage: storage })
-
 // Rutas
 app.get('/', function(req, res) {
   console.log("index");
 	res.render('index');
+});
+
+app.get('/files',function(req,res) {
+	archivos.find(function(err, doc){
+		res.render('files',{files: doc });
+	});
+
 });
 
 app.get('/upload', function(req, res) {
@@ -50,27 +56,25 @@ app.get('/upload', function(req, res) {
 
 });
 
-app.post('/upload',upload.array('file'),function(req,res) {
+app.post('/upload', (req, res) => {
+  req.fields; // contains non-file fields
+  req.files; // contains files
+	console.log(req.fields);
+	console.log(req.files.subido.path);
 
-		 var entrada = {                            //Variable donde guardar los post para guardar en la base de datos
-		 	titulo:req.body.titulo,
-		 	descripcion:req.body.descripcion,
-			url:req.body.path,
-		 	select:false
-		};
+	var entrada = {                            //Variable donde guardar los post para guardar en la base de datos
+	 titulo:req.fields.titulo,
+	 descripcion:req.fields.descripcion,
+	 url:req.files.subido.path,
+	 select:false
+ 	};
 
-	var nuevaEntrada = new archivos (entrada);
-	nuevaEntrada.save(function(err){           //Guardamos en la base de datos las nuevas entradas
-		console.log(entrada);
-	});
-  console.log(req);
-	res.render('index');
-})
+ var nuevaEntrada = new archivos (entrada);
 
-app.get('/files',function(req,res) {
-	archivos.find(function(err, doc){
-		res.render('files',{files: doc });
-	});
+ nuevaEntrada.save(function(err){           //Guardamos en la base de datos las nuevas entradas
+	 console.log(entrada);
+ });
+  res.redirect('/files');
 
 });
 
