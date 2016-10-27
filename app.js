@@ -7,7 +7,7 @@ var parser     = require ('body-parser');
 
 //Dirty code to avoid warnings
 const eventos = require('events');
-const emitter = new eventos.EventEmitter();             //Deveria corregir esto si la raspi se empieza a colgar
+const emitter = new eventos.EventEmitter(0);             //Deveria corregir esto si la raspi se empieza a colgar
 emitter.setMaxListeners(0);
 
 // Instantaciones y configuraciones
