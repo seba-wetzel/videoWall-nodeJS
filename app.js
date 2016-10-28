@@ -11,7 +11,7 @@ const emitter = new eventos.EventEmitter(0);             //Deveria corregir esto
 emitter.setMaxListeners(0);
 
 // Instantaciones y configuraciones
-var puerto = 5000;
+var puerto = 80;
 var app     = express();
 app.set("view engine","jade");                   //Motor de plantillas jade
 app.use(express.static("public"));               //Carpeta de contenidos estaticos
@@ -21,9 +21,9 @@ app.use(parser.urlencoded({extended:true}));
 app.use(formidable({
   encoding: 'utf-8',
   uploadDir: './uploads',
-  multiples: false,                                   // El request no puede ser un array de archivos
+  multiples: true,                                   // El request no puede ser un array de archivos
 }));
-mongo.connect("mongodb://localhost/videowall-test");  //Base de datos mongodb
+mongo.connect("mongodb://localhost/videowall-test1");  //Base de datos mongodb
 
 // Schema de la base de datos
 var schema = {
@@ -44,6 +44,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/files',function(req,res) {
+	console.log("files");
 	archivos.find(function(err, doc){
 		res.render('files',{files: doc });
 	});
@@ -56,7 +57,7 @@ app.get('/upload', function(req, res) {
 
 });
 
-app.post('/upload', (req, res) => {
+app.post('/upload', function (req, res) {
   req.fields; // contains non-file fields
   req.files; // contains files
 	console.log(req.fields);
@@ -78,6 +79,14 @@ app.post('/upload', (req, res) => {
 
 });
 
-// Server
+app.post('/admin', function (req, res){
+ console.log("index");
+ req.fields;
+ console.log(req.fields.selection);
+ res.redirect('/');
+
+}); // Server
+
+
 app.listen(puerto);
  console.log("Escuchando en el puerto %d",puerto);

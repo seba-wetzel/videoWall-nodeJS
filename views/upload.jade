@@ -1,18 +1,21 @@
 extends ./layout.jade
 block pagina
-  container(class="full-height text-center")
-   div(class="data")
-    div(class="col-md-5 center-block no-float top-space text-left")
-     h1 Cargar archivos
+
+     
      form(method="post" action="/upload" enctype="multipart/form-data" style="margin-top:1.5em;")
-      div(class="form-group")
-       label Video o Imagen
-       input(type="text" name="titulo" placeholder="Titulo del video o de la imagen" class="form-control")
-      div(class="form-group")
-       textarea(name="descripcion" placeholder="Descripcion del video o de la imagen" class="form-control")
-      div(class="form-group")
-       label Seleccione un archivo
-       input(type="file" name="subido")
-      div(class="form-group text-right")
-       input(type="submit" class="btn btn-info" value="Subir")
+      div()
+       label(class="label") Video o Imagen
+       p(class="control")
+        input(class="input" name="titulo" type="text" placeholder="Titulo del video o de la imagen" required)
+       p(class="control")
+         label(class="label") Descripcion
+         textarea(name="descripcion" placeholder="Descripcion del video o de la imagen" style="width:100%;" cols="20" rows="5")
+       p(class="control is-horizontal")
+       label(class="label") Seleccione un archivo
+        div(class="control is-grouped")
+           
+           p(class="control is-expanded")
+            input(type="file" name="subido" required)
+            p(class="control")
+             button(class="button is-dark" type="submit") Subir
        

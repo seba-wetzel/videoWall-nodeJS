@@ -1,11 +1,33 @@
 extends ./layout.jade
 block pagina
- h2(class="pacifico big blue") archivos
- p Subidos al VideoWall
- 
+ form(method="post" action="/admin" enctype="multipart/form-data")
   each file in files
+    div(class="box")
+     article(class="media")
+      div(class="media-left")
+       figure(class="image is-64x64")
+        img(src="#{ file.url }" alt="Image")
+     
+        
+      div(class="media-content")
+       div(class="content")
+        p
+         strong()=file.titulo
+         br
+         p()=file.descripcion
+          
+      nav(class="level")
+       div(class="level-left")
+        a(class="level-item")
+         span(class="icon is-small")
+          input(name="selection" type="radio" value="#{ file.id }")       
+     
+  button(class="button is-dark" type="submit") Seleccionar 
    
-    div(class="col-md-4 colsm-6 col-xs-12 inline-block")
-     h3(class="pacifico")=file.titulo
-     p(style="margin-top:1em;") #[small(class="lato small") #{file.descripcion} ] 
-     img(src="#{ file.url }" class="col-xs-7 col-md-4 no-float") 
+   
+   
+   
+   
+       
+       
+      

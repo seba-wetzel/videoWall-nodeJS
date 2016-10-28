@@ -1,21 +1,23 @@
 doctype html
-html(lang="es" ng-app="myApp")
+html(lang="es")
  head
-  meta(name="viewport" content="width=device-width, initial-scale=1")
-  meta(charset="utf-8")    
-  link(href="css/bootstrap.min.css" rel="stylesheet")
-  link(href="css/navbar-fixed-top.css" rel="stylesheet")
- body
-  nav(class="navbar navbar-default navbar-fixed-top")
-   div(class="container-fluid")
-    div(id="navbar" class="navbar-collapse collapse")
-     ul(class="nav navbar-nav")
-      li
-       a(href="/") Inicio
-      li
-       a(href="/upload") Subir
-     
-     
-  block pagina
-  script(src="js/jquery.min.js")
-  script(src="js/bootstrap.min.js")
+  meta(charset="utf-8")
+  meta(name="viewport" content="width=device-width, initial-scale=1")    
+  link(href="/css/bulma.css" rel="stylesheet")
+  link(href="/css/bulma.css.map" rel="stylesheet")
+  
+
+
+ body(style="height:100%;width:100%;")
+  section(class="hero is-large is-bold" style="height:100%")
+    section(class="hero is-large is-dark")
+     nav(class="nav nav-center has-shadow")
+      div(class="container is-fluid")
+       div(class="nav-center")
+        a(class="nav-item is-tab" href="/") Inicio
+        a(class="nav-item is-tab" href="/upload") Subir
+        a(class="nav-item is-tab" href="/files") Archivos
+    div(class="container is-fluid" style="height:100%" )    
+     block pagina
+      
+   
