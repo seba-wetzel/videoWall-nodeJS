@@ -1,6 +1,6 @@
 extends ./layout.jade
 block pagina
- form(method="post" action="/admin" enctype="multipart/form-data")
+ form(method="post" action="/admin" enctype="multipart/form-data" required)
   each file in files
     div(class="box")
      article(class="media")
@@ -20,9 +20,10 @@ block pagina
        div(class="level-left")
         a(class="level-item")
          span(class="icon is-small")
-          input(name="selection" type="radio" value="#{ file.id }")       
-     
-  button(class="button is-dark" type="submit") Seleccionar 
+          input(name="selection" type="radio" value="#{ file.id }")
+                 
+    
+  button(class="button is-dark" type="submit") Listo! 
    
    
    

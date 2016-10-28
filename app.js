@@ -23,7 +23,7 @@ app.use(formidable({
   uploadDir: './uploads',
   multiples: true,                                   // El request no puede ser un array de archivos
 }));
-mongo.connect("mongodb://localhost/videowall-test1");  //Base de datos mongodb
+mongo.connect("mongodb://localhost/videowall-test2");  //Base de datos mongodb
 
 // Schema de la base de datos
 var schema = {
@@ -40,7 +40,15 @@ var archivos = mongo.model("archivos",schema);
 // Rutas
 app.get('/', function(req, res) {
   console.log("index");
-	res.render('index');
+	archivos.findOne({select:true},function(err, doc){
+    console.log(doc);
+    if(doc){
+		res.render('index',{imagen: doc });}
+    else {
+      var temp = {url:'/imgs/logo.png'};
+      res.render('index',{imagen: temp });
+    };;
+	});
 });
 
 app.get('/files',function(req,res) {
@@ -80,13 +88,32 @@ app.post('/upload', function (req, res) {
 });
 
 app.post('/admin', function (req, res){
- console.log("index");
+ console.log("admin");
  req.fields;
+
+ archivos.find(function(err, documentos) {
+  documentos.forEach(function(documento) {
+    documento.select = 'false';
+    documento.save();
+  });
+});
+if (req.fields.selection){
+ archivos.findById(req.fields.selection, function(err, doc) {
+ doc.select = true;
+ doc.save(function(err, updated){
+   console.log(updated);
+ });
+ }); };
+
+ //archivos.update({_id:req.fields.selection},{'$set': {select:true}},function (err, tank) {});
  console.log(req.fields.selection);
+
  res.redirect('/');
 
-}); // Server
+});
 
+
+// Server
 
 app.listen(puerto);
  console.log("Escuchando en el puerto %d",puerto);
