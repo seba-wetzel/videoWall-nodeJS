@@ -1,0 +1,52 @@
+extends ./layout.jade
+block pagina
+ 
+  each file in files
+   
+    div(class="box")
+     article(class="media")
+      div(class="media-left")
+       figure(class="image is-64x64")
+        img(src="#{ file.url }" alt="Image"  height="64" width="64")
+     
+        
+      div(class="media-content")
+       div(class="content")
+        p
+         strong()=file.titulo
+         br
+         p()=file.descripcion
+          
+      nav(class="level")
+       div(class="level-left")
+        div(lass="control is-grouped")
+         p(class="control")
+           form(method="post" action="/set" enctype="multipart/form-data" required)
+             if file.select
+               button(class="button is-disable" disabled)
+                span(class="icon")
+                 i(class="fa fa-times" aria-hidden="true")
+             else
+               button(class="button is-info is-active" type="submit" name="selection" value="#{ file.id }")
+                span(class="icon")
+                 i(class="fa fa-check" aria-hidden="true")
+             
+         p(class="control")
+          form(method="post" action="/delete" enctype="multipart/form-data" required)
+           button(class="button is-danger" type="submit" name="selection" value="#{ file.id }")
+            span(class="icon")
+             i(class="fa fa-times" aria-hidden="true")
+            
+           
+               
+         
+          
+              
+   
+   
+   
+   
+   
+       
+       
+      

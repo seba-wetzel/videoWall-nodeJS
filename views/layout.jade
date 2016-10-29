@@ -2,24 +2,41 @@ doctype html
 html(lang="es")
  head
   meta(charset="utf-8")
-  meta(name="viewport" content="width=device-width, initial-scale=1")    
+  meta(name="viewport" content="width=device-width, height=device-height, initial-scale=1")    
   link(href="/css/bulma.css" rel="stylesheet")
-  link(href="/css/bulma.css.map" rel="stylesheet")
+  link(href="/css/bulma.css.map" rel="stylesheet" type="text/css")
+  link(href="/css/font-awesome.css" rel="stylesheet" type="text/css")
   
 
 
- body(style="height:100%;width:100%;")
-  section(class="hero is-large is-bold" style="height:100%")
+ body(style="height:100%,width:100% ")
+  section(class="hero is-large is-bold" )
     section(class="hero is-large is-dark")
      nav(class="nav nav-center has-shadow")
       div(class="container is-fluid")
        div(class="nav-center")
-        a(class="nav-item is-tab" href="/") Inicio
-        a(class="nav-item is-tab" href="/upload") Subir
-        a(class="nav-item is-tab" href="/files") Admin
+        div(class="nav-item is-tab")
+         a(class="nav-item" href="/")
+          span(class="icon")
+           i(class="fa fa-home")
+           span
+
+        div(class="nav-item is-tab")
+         a(class="nav-item" href="/images")
+          span(class="icon")
+           i(class="fa fa-camera")
+            span
+
+       
+        div(class="nav-item is-tab")
+         a(class="nav-item" href="/upload")
+          span(class="icon")
+           i(class="fa fa-upload")
+           span
     div(class="columns is-mobile")
      div(class="column is-8 is-offset-2")
-      div(class="container is-fluid" style="height:100%" )    
-       block pagina
+      div(class="container is-fluid"  )    
+       section(class="section")
+        block pagina
       
    

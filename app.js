@@ -4,6 +4,7 @@ var express    = require ('express');
 var formidable = require('express-formidable');
 var mongo      = require ('mongoose')
 var parser     = require ('body-parser');
+var fs         = require ('fs');
 
 //Dirty code to avoid warnings
 const eventos = require('events');
@@ -51,10 +52,10 @@ app.get('/', function(req, res) {
 	});
 });
 
-app.get('/files',function(req,res) {
-	console.log("files");
+app.get('/images',function(req,res) {
+	console.log("images");
 	archivos.find(function(err, doc){
-		res.render('files',{files: doc });
+		res.render('images',{files: doc });
 	});
 
 });
@@ -83,36 +84,48 @@ app.post('/upload', function (req, res) {
  nuevaEntrada.save(function(err){           //Guardamos en la base de datos las nuevas entradas
 	 console.log(entrada);
  });
-  res.redirect('/files');
+  res.redirect('/');
 
 });
 
-app.post('/admin', function (req, res){
- console.log("admin");
+app.post('/set', function (req, res){
+ console.log("set");
  req.fields;
 
- archivos.find(function(err, documentos) {
+ archivos.find({},function(err, documentos) {
   documentos.forEach(function(documento) {
     documento.select = 'false';
     documento.save();
   });
-});
-if (req.fields.selection){
- archivos.findById(req.fields.selection, function(err, doc) {
- doc.select = true;
- doc.save(function(err, updated){
-   console.log(updated);
  });
- }); };
+  if (req.fields.selection){
+   archivos.findById(req.fields.selection, function(err, doc) {
+   doc.select = true;
+   doc.save(function(err, updated){
+     console.log(updated);
+      });
+    });
+  };
 
- //archivos.update({_id:req.fields.selection},{'$set': {select:true}},function (err, tank) {});
- console.log(req.fields.selection);
+   //archivos.update({_id:req.fields.selection},{'$set': {select:true}},function (err, tank) {});
+   console.log(req.fields.selection);
 
- res.redirect('/');
+   res.redirect('/');
+
+  });
+
+app.post('/delete',function (req, res){
+  var id =req.fields.selection;
+  archivos.findOne({_id:id},function(err, documentos) {
+    console.log(documentos.url);
+    fs.unlinkSync(documentos.url);
+  });
+  archivos.findByIdAndRemove(id, function (err,offer){
+    res.redirect('/images');
+  });
+
 
 });
-
-
 // Server
 
 app.listen(puerto);
